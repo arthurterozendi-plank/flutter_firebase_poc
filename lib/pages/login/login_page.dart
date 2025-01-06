@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../home/home_page.dart';
-import '../signUp/sign_up_page.dart';
+import '../../app_router.dart';
 import '../../components/input_field.dart';
 
 class LoginPage extends StatefulWidget {
@@ -26,7 +25,7 @@ class _LoginPageState extends State<LoginPage> {
 
   void authenticate() {
     if (email == 'admin' && password == 'admin') {
-      Navigator.of(context).pushReplacementNamed(HomePage.routeName);
+      AppRouter.navigateToAndReplace(context, Routes.home);
     } else {
       showDialog(
         context: context,
@@ -68,10 +67,9 @@ class _LoginPageState extends State<LoginPage> {
             ),
           ),
           TextButton(
-            onPressed: () => Navigator.of(context)
-                .pushReplacementNamed(SignUpPage.routeName),
+            onPressed: () => AppRouter.navigateToAndReplace(context, Routes.signUp),
             child: Text(
-              'Sign Up',
+              'Sign In',
               style: Theme.of(context).textTheme.bodyMedium,
             ),
           ),

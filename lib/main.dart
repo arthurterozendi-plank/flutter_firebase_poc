@@ -3,7 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
 import 'pages/login/login_page.dart';
-import 'route_generator.dart';
+import 'app_router.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       initialRoute: LoginPage.routeName,
-      onGenerateRoute: RouteGenerator.generateRoute,
+      routes: AppRouter.routes,
     );
   }
 }

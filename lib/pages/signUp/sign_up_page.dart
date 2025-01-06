@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../app_router.dart';
 import '../../components/input_field.dart';
-import '../login/login_page.dart';
 
 class SignUpPage extends StatefulWidget {
   static const String routeName = '/signUp';
@@ -28,7 +28,7 @@ class _SignUpPageState extends State<SignUpPage> {
       );
       return;
     }
-    Navigator.of(context).pushReplacementNamed(LoginPage.routeName);
+    AppRouter.navigateToAndReplace(context, Routes.login);
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
