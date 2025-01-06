@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "174787961430",
+    "project_id": "poc-flutter-firebase-7b1ea",
+    "storage_bucket": "poc-flutter-firebase-7b1ea.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:174787961430:android:abca0faa688c0bc52691f7",
+        "android_client_info": {
+          "package_name": "com.pocflutter.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBp4Q6E7KAYWUx3wSaS019zQfYVtu-f8KE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
