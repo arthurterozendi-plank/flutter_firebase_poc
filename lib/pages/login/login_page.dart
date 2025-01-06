@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '../home/home_page.dart';
+import '../signUp/sign_up_page.dart';
+import '../../components/input_field.dart';
 
 class LoginPage extends StatefulWidget {
   static const String routeName = '/login';
@@ -39,43 +41,41 @@ class _LoginPageState extends State<LoginPage> {
   Widget loginBody() {
     return Container(
       padding: const EdgeInsets.all(16.0),
-      child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text('Login', style: Theme.of(context).textTheme.headlineMedium),
-            inputField('Email', Icons.email, (value) => email = value, false),
-            inputField(
-                'Password', Icons.lock, (value) => password = value, true),
-            const SizedBox(height: 16.0),
-            ElevatedButton(
-                onPressed: () => authenticate(),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-                ),
-                child: Text('Login',
-                    style: Theme.of(context).textTheme.bodyMedium)),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget inputField(String label, IconData icon, Function(String) onChanged,
-      bool obscureText) {
-    return TextField(
-      onChanged: onChanged,
-      obscureText: obscureText ? !showPassword : obscureText,
-      decoration: InputDecoration(
-        labelText: label,
-        prefixIcon: Icon(icon),
-        suffixIcon: obscureText
-            ? IconButton(
-                icon: Icon(
-                    showPassword ? Icons.visibility : Icons.visibility_off),
-                onPressed: () => setState(() => showPassword = !showPassword),
-              )
-            : null,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text('Login', style: Theme.of(context).textTheme.headlineMedium),
+          CustomInputField(
+            label: 'Email',
+            icon: Icons.email,
+            onChanged: (value) => email = value,
+          ),
+          CustomInputField(
+            label: 'Password',
+            icon: Icons.lock,
+            onChanged: (value) => password = value,
+            obscureText: true,
+          ),
+          const SizedBox(height: 16.0),
+          ElevatedButton(
+            onPressed: () => authenticate(),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+            ),
+            child: Text(
+              'Sign Up',
+              style: Theme.of(context).textTheme.bodyMedium,
+            ),
+          ),
+          TextButton(
+            onPressed: () => Navigator.of(context)
+                .pushReplacementNamed(SignUpPage.routeName),
+            child: Text(
+              'Sign Up',
+              style: Theme.of(context).textTheme.bodyMedium,
+            ),
+          ),
+        ],
       ),
     );
   }
