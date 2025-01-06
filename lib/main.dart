@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import 'pages/login/login_page.dart';
+import 'route_generator.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -16,7 +19,8 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.purple),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      initialRoute: LoginPage.routeName,
+      onGenerateRoute: RouteGenerator.generateRoute,
     );
   }
 }
