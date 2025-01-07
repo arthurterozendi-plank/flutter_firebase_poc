@@ -22,4 +22,15 @@ class FirebaseService {
       return null;
     }
   }
+
+  static Future<User?> signIn(String email, String password) async {
+    try {
+      UserCredential userCredential = await auth.signInWithEmailAndPassword(
+          email: email, password: password);
+      return userCredential.user;
+    } catch (e) {
+      print('Firebase SignIn Error: $e');
+      return null;
+    }
+  }
 }

@@ -1,7 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../../app_router.dart';
 import '../../components/input_field.dart';
+import '../../services/firebase.dart';
 
 class LoginPage extends StatefulWidget {
   static const String routeName = '/login';
@@ -23,8 +25,9 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  void authenticate() {
-    if (email == 'admin' && password == 'admin') {
+  void authenticate() async {
+    User? user = await FirebaseService.signIn(email, password);
+    if (user != null) {
       AppRouter.navigateToAndReplace(context, Routes.home);
     } else {
       showDialog(
