@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -15,7 +16,7 @@ class _HomePageState extends State<HomePage> {
       body: Container(
         padding: const EdgeInsets.all(16.0),
         child: Center(
-          child: Text('Home'),
+          child: Text('Welcome to the Home Page ${FirebaseAuth.instance.currentUser?.email}'),
         ),
       ),
     );
