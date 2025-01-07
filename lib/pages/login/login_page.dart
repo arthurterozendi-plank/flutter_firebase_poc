@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/gestures.dart';
 
 import '../../app_router.dart';
 import '../../components/input_field.dart';
@@ -29,54 +30,61 @@ class _LoginPageState extends State<LoginPage> {
     User? user = await AuthService.signIn(email, password);
     if (user != null) {
       AppRouter.navigateToAndReplace(context, Routes.home);
-    } else {
-      // showDialog(
-      //   context: context,
-      //   builder: (context) => AlertDialog(
-      //     title: Text('Login Failed'),
-      //     content: Text('Invalid email or password'),
-      //   ),
-      // );
     }
   }
 
   Widget loginBody() {
     return Container(
       padding: const EdgeInsets.all(16.0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text('Login', style: Theme.of(context).textTheme.headlineMedium),
-          CustomInputField(
-            label: 'Email',
-            icon: Icons.email,
-            onChanged: (value) => email = value,
-          ),
-          CustomInputField(
-            label: 'Password',
-            icon: Icons.lock,
-            onChanged: (value) => password = value,
-            obscureText: true,
-          ),
-          const SizedBox(height: 16.0),
-          ElevatedButton(
-            onPressed: () => authenticate(),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Spacer(),
+            Text(
+              'Welcome Back!',
+              style: Theme.of(context).textTheme.headlineMedium,
             ),
-            child: Text(
-              'Sign Up',
-              style: Theme.of(context).textTheme.bodyMedium,
+            CustomInputField(
+              label: 'Email',
+              icon: Icons.email,
+              onChanged: (value) => email = value,
             ),
-          ),
-          TextButton(
-            onPressed: () => AppRouter.navigateToAndReplace(context, Routes.signUp),
-            child: Text(
-              'Sign In',
-              style: Theme.of(context).textTheme.bodyMedium,
+            CustomInputField(
+              label: 'Password',
+              icon: Icons.lock,
+              onChanged: (value) => password = value,
+              obscureText: true,
             ),
-          ),
-        ],
+            const SizedBox(height: 16.0),
+            ElevatedButton(
+              onPressed: () => authenticate(),
+              child: Text(
+                'Sign In',
+                style: Theme.of(context).textTheme.bodyMedium,
+              ),
+            ),
+            const Spacer(),
+            Text.rich(
+              TextSpan(
+                children: [
+                  TextSpan(text: 'Don\'t have an account? '),
+                  TextSpan(
+                    text: 'Sign Up',
+                    style: const TextStyle(
+                        color: Colors.blue,
+                        fontWeight: FontWeight.normal,
+                        fontSize: 16),
+                    recognizer: TapGestureRecognizer()
+                      ..onTap = () => AppRouter.navigateToAndReplace(
+                          context, Routes.signUp),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 32.0),
+          ],
+        ),
       ),
     );
   }
