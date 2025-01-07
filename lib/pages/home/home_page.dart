@@ -1,6 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+import '../../app_router.dart';
+import '../../services/auth_services.dart';
+
 class HomePage extends StatefulWidget {
   static const String routeName = '/';
   const HomePage({super.key});
@@ -12,11 +15,28 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
+    void signOut() async {
+      await AuthService.signOut();
+    }
+
     return Scaffold(
       body: Container(
         padding: const EdgeInsets.all(16.0),
         child: Center(
-          child: Text('Welcome to the Home Page ${FirebaseAuth.instance.currentUser?.email}'),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                  'Welcome to the Home Page ${FirebaseAuth.instance.currentUser?.displayName}'),
+              ElevatedButton(
+                onPressed: () {
+                  signOut();
+                  AppRouter.navigateToAndReplace(context, Routes.login);
+                },
+                child: Text('Sign Out'),
+              ),
+            ],
+          ),
         ),
       ),
     );

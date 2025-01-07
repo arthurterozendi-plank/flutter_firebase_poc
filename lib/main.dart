@@ -23,8 +23,22 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.purple),
         useMaterial3: true,
+        colorScheme: ColorScheme.dark(
+          primary: Colors.purple,
+          secondary: Colors.purpleAccent,
+          surface: Colors.grey[900]!,
+          surfaceContainerHighest: Colors.black,
+        ),
+        appBarTheme: AppBarTheme(
+          elevation: 0,
+          centerTitle: true,
+        ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            minimumSize: Size(120, 48),
+          ),
+        ),
       ),
       initialRoute: LoginPage.routeName,
       routes: AppRouter.routes,
