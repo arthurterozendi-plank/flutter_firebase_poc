@@ -1,23 +1,36 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+
+import '../models/user.dart';
 
 class AuthService {
   const AuthService._();
 
   static final FirebaseAuth auth = FirebaseAuth.instance;
+  static final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   static Future<bool> signUp(String email, String password, String name) async {
     try {
       UserCredential userCredential = await auth.createUserWithEmailAndPassword(
           email: email, password: password);
 
-      final user = userCredential.user;
-      if (user != null) {
-        await user.updateDisplayName(name);
-        return true;
+      if (userCredential.user == null) {
+        return false;
       }
-      return false;
+
+      await userCredential.user!.updateDisplayName(name);
+      await firestore
+          .collection('users')
+          .doc(userCredential.user!.uid)
+          .set(UserModel(
+            email: email,
+            name: name,
+            uid: userCredential.user!.uid,
+            createdAt: DateTime.now().toIso8601String(),
+          ).toJson());
+      return true;
     } on FirebaseAuthException catch (e) {
       String errorMessage = '';
       if (e.code == 'email-already-in-use') {
