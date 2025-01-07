@@ -1,3 +1,5 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_poc/services/firebase.dart';
 import 'package:flutter/material.dart';
 
 import '../../app_router.dart';
@@ -17,7 +19,30 @@ class _SignUpPageState extends State<SignUpPage> {
   String password = '';
   String confirmPassword = '';
 
-  void createUser() {
+  Future<void> createUser() async {
+    if (name.isEmpty ||
+        email.isEmpty ||
+        password.isEmpty ||
+        confirmPassword.isEmpty) {
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text('Sign Up Failed'),
+          content: Text('Please fill all fields'),
+        ),
+      );
+      return;
+    }
+    if (name.length < 3 || email.length < 3 || password.length < 3) {
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text('Sign Up Failed'),
+          content: Text('Fields must be at least 3 characters'),
+        ),
+      );
+      return;
+    }
     if (password != confirmPassword) {
       showDialog(
         context: context,
@@ -28,14 +53,18 @@ class _SignUpPageState extends State<SignUpPage> {
       );
       return;
     }
-    AppRouter.navigateToAndReplace(context, Routes.login);
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text('Sign Up Successful'),
-        content: Text('User created successfully'),
-      ),
-    );
+    User? user = await FirebaseService.signUp(email, password, name);
+    if (user != null) {
+      AppRouter.navigateToAndReplace(context, Routes.login);
+    } else {
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text('Sign Up Failed'),
+          content: Text('User creation failed'),
+        ),
+      );
+    }
   }
 
   @override
