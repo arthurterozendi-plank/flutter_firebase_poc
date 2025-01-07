@@ -20,6 +20,20 @@ class _HomePageState extends State<HomePage> {
     }
 
     return Scaffold(
+      appBar: AppBar(
+        title: Text('Home'),
+        centerTitle: true,
+        backgroundColor: Theme.of(context).colorScheme.primary,
+        actions: [
+          IconButton(
+            onPressed: () {
+              signOut();
+              AppRouter.navigateToAndReplace(context, Routes.login);
+            },
+            icon: Icon(Icons.logout),
+          ),
+        ],
+      ),
       body: Container(
         padding: const EdgeInsets.all(16.0),
         child: Center(
@@ -33,7 +47,10 @@ class _HomePageState extends State<HomePage> {
                   signOut();
                   AppRouter.navigateToAndReplace(context, Routes.login);
                 },
-                child: Text('Sign Out'),
+                child: Text(
+                  'Sign Out',
+                  style: Theme.of(context).textTheme.bodyMedium,
+                ),
               ),
             ],
           ),

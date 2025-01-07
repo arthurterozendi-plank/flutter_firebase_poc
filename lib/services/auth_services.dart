@@ -7,8 +7,7 @@ class AuthService {
 
   static final FirebaseAuth auth = FirebaseAuth.instance;
 
-  static Future<User?> signUp(
-      String email, String password, String name) async {
+  static Future<bool> signUp(String email, String password, String name) async {
     try {
       UserCredential userCredential = await auth.createUserWithEmailAndPassword(
           email: email, password: password);
@@ -16,9 +15,9 @@ class AuthService {
       final user = userCredential.user;
       if (user != null) {
         await user.updateDisplayName(name);
-        return user;
+        return true;
       }
-      return null;
+      return false;
     } on FirebaseAuthException catch (e) {
       String errorMessage = '';
       if (e.code == 'email-already-in-use') {
@@ -37,18 +36,17 @@ class AuthService {
         textColor: Colors.white,
         fontSize: 16.0,
       );
-      return null;
+      return false;
     } catch (e) {
       print('Firebase SignUp Error: $e');
-      return null;
+      return false;
     }
   }
 
-  static Future<User?> signIn(String email, String password) async {
+  static Future<bool> signIn(String email, String password) async {
     try {
-      UserCredential userCredential = await auth.signInWithEmailAndPassword(
-          email: email, password: password);
-      return userCredential.user;
+      await auth.signInWithEmailAndPassword(email: email, password: password);
+      return true;
     } on FirebaseAuthException catch (e) {
       String errorMessage = '';
       if (e.code == 'user-not-found') {
@@ -68,14 +66,18 @@ class AuthService {
         textColor: Colors.white,
         fontSize: 14.0,
       );
-      return null;
+      return false;
     } catch (e) {
       print('Firebase SignIn Error: $e');
-      return null;
+      return false;
     }
   }
 
   static Future<void> signOut() async {
     await FirebaseAuth.instance.signOut();
+  }
+
+  static Future<bool> isAuthenticated() async {
+    return auth.currentUser != null;
   }
 }

@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_poc/services/auth_services.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -58,8 +57,8 @@ class _SignUpPageState extends State<SignUpPage> {
       );
       return;
     }
-    User? user = await AuthService.signUp(email, password, name);
-    if (user != null) {
+    bool isCreated = await AuthService.signUp(email, password, name);
+    if (isCreated) {
       AppRouter.navigateToAndReplace(context, Routes.login);
     }
   }

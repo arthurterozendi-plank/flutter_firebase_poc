@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 
@@ -20,6 +19,19 @@ class _LoginPageState extends State<LoginPage> {
   bool showPassword = false;
 
   @override
+  void initState() {
+    super.initState();
+    checkAuthentication();
+  }
+
+  Future<void> checkAuthentication() async {
+    bool isAuthenticated = await AuthService.isAuthenticated();
+    if (isAuthenticated) {
+      AppRouter.navigateToAndReplace(context, Routes.home);
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: loginBody(),
@@ -27,8 +39,8 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void authenticate() async {
-    User? user = await AuthService.signIn(email, password);
-    if (user != null) {
+    bool isAuthenticated = await AuthService.signIn(email, password);
+    if (isAuthenticated) {
       AppRouter.navigateToAndReplace(context, Routes.home);
     }
   }
