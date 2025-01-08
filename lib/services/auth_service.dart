@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 import '../models/user.dart';
-import 'user_firestore_services.dart';
+import 'user_firestore_service.dart';
 
 class AuthService {
   const AuthService._();

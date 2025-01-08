@@ -3,7 +3,7 @@ import 'package:flutter/gestures.dart';
 
 import '../../app_router.dart';
 import '../../components/input_field.dart';
-import '../../services/auth_services.dart';
+import '../../services/auth_service.dart';
 
 class LoginPage extends StatefulWidget {
   static const String routeName = '/login';
