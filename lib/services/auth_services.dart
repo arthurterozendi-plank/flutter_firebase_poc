@@ -1,15 +1,14 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 import '../models/user.dart';
+import 'user_firestore_services.dart';
 
 class AuthService {
   const AuthService._();
 
   static final FirebaseAuth auth = FirebaseAuth.instance;
-  static final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   static Future<bool> signUp(String email, String password, String name) async {
     try {
@@ -21,15 +20,12 @@ class AuthService {
       }
 
       await userCredential.user!.updateDisplayName(name);
-      await firestore
-          .collection('users')
-          .doc(userCredential.user!.uid)
-          .set(UserModel(
-            email: email,
-            name: name,
-            uid: userCredential.user!.uid,
-            createdAt: DateTime.now().toIso8601String(),
-          ).toJson());
+      await UserFirestoreService.addUser(UserModel(
+        email: email,
+        name: name,
+        uid: userCredential.user!.uid,
+        createdAt: DateTime.now().toIso8601String(),
+      ));
       return true;
     } on FirebaseAuthException catch (e) {
       String errorMessage = '';
